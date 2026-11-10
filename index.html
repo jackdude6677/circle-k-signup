@@ -1,0 +1,753 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Circle K Club sign-up</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #14213d;
+    --navy: #172a5c;
+    --navy-deep: #0e1b40;
+    --blue: #2a4fd0;
+    --sky: #eef2fb;
+    --paper: #ffffff;
+    --gold: #f6b92b;
+    --muted: #56617c;
+    --line: #c2cce3;
+    --error: #b42318;
+    --display: "Bricolage Grotesque", "Arial Narrow", system-ui, sans-serif;
+    --body: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    font-family: var(--body);
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--ink);
+    background: var(--sky);
+  }
+  h1, h2, p { margin: 0; }
+  :focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+
+  .page {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: minmax(340px, 5fr) 7fr;
+  }
+
+  /* ---------- Left: the name tag ---------- */
+  .stage {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 0 clamp(24px, 4vw, 56px) clamp(28px, 6vh, 56px);
+    background: var(--navy);
+    color: #fff;
+  }
+  .stage::before {
+    content: "";
+    position: absolute;
+    width: 125%;
+    aspect-ratio: 1;
+    right: -55%;
+    top: -18%;
+    border: 64px solid rgba(255, 255, 255, 0.045);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .hang {
+    position: relative;
+    width: min(300px, 82%);
+    margin-left: clamp(0px, 5%, 36px);
+    transform-origin: 50% 0;
+    transform: rotate(-3deg);
+    animation: settle 1.5s cubic-bezier(0.3, 0.7, 0.3, 1) both;
+  }
+  @keyframes settle {
+    0%   { transform: rotate(-12deg); }
+    35%  { transform: rotate(3deg); }
+    65%  { transform: rotate(-5deg); }
+    100% { transform: rotate(-3deg); }
+  }
+  .strap {
+    width: 26px;
+    height: clamp(44px, 14vh, 150px);
+    margin: 0 auto;
+    background: var(--gold);
+    box-shadow: inset -7px 0 0 rgba(0, 0, 0, 0.13);
+  }
+  .clip {
+    position: relative;
+    z-index: 1;
+    width: 36px;
+    height: 22px;
+    margin: 0 auto -10px;
+    border-radius: 5px;
+    background: #d5dbea;
+    box-shadow: inset 0 -5px 0 rgba(0, 0, 0, 0.14);
+  }
+  .tag {
+    position: relative;
+    padding: 40px 22px 0;
+    border-radius: 18px;
+    background: var(--paper);
+    color: var(--ink);
+    text-align: center;
+    box-shadow: 10px 12px 0 var(--navy-deep);
+  }
+  .tag-slot {
+    position: absolute;
+    top: 13px;
+    left: 50%;
+    width: 62px;
+    height: 12px;
+    margin-left: -31px;
+    border-radius: 6px;
+    background: var(--navy);
+  }
+  .tag-club { font-size: 0.85rem; font-weight: 700; color: var(--muted); }
+  .tag-first {
+    margin-top: 12px;
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 2.6rem;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    overflow-wrap: anywhere;
+  }
+  .tag-first.is-long { font-size: 2rem; }
+  .tag-first.is-xlong { font-size: 1.5rem; }
+  .tag-first.is-empty { color: #b3bcd2; }
+  .tag-last {
+    min-height: 1.3em;
+    margin-top: 4px;
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 1.3rem;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+  }
+  .tag-foot {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 20px -22px 0;
+    padding: 10px 22px 11px;
+    border-radius: 0 0 18px 18px;
+    background: var(--gold);
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-align: left;
+  }
+  .tag-seal {
+    position: absolute;
+    top: -14px;
+    right: -22px;
+    display: grid;
+    place-items: center;
+    width: 88px;
+    height: 88px;
+    padding: 8px;
+    border-radius: 50%;
+    background: var(--blue);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.78rem;
+    line-height: 1.15;
+    opacity: 0;
+    transform: rotate(14deg) scale(1.6);
+  }
+  .tag-seal svg { display: block; margin: 0 auto 2px; }
+  .is-saved .tag-seal {
+    opacity: 1;
+    transform: rotate(14deg) scale(1);
+    transition: transform 0.35s cubic-bezier(0.2, 1.4, 0.4, 1), opacity 0.15s linear;
+  }
+
+  .stage h1 {
+    position: relative;
+    margin-top: auto;
+    max-width: 11ch;
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(2.5rem, 4.3vw, 4.1rem);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+  }
+  .stage .lede {
+    position: relative;
+    max-width: 32ch;
+    margin-top: 16px;
+    color: #cbd5f3;
+  }
+
+  /* ---------- Right: the form ---------- */
+  .sheet { padding: clamp(28px, 7vh, 80px) clamp(20px, 5vw, 76px) 64px; }
+  form, .done { max-width: 600px; }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .trap { position: absolute; left: -9999px; top: auto; }
+
+  fieldset { min-width: 0; margin: 0; padding: 0; border: 0; }
+  legend, label.label {
+    display: block;
+    padding: 0;
+    margin-bottom: 7px;
+    font-weight: 700;
+    font-size: 1rem;
+  }
+  .hint { margin: -3px 0 12px; color: var(--muted); max-width: 52ch; }
+
+  .field { min-width: 0; }
+  .block { margin-top: 30px; }
+  .grid2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 256px), 1fr));
+    gap: 22px 16px;
+    margin-top: 30px;
+  }
+
+  /* role chips */
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; }
+  .chip { position: relative; cursor: pointer; }
+  .chip input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+  .chip span {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 0 20px;
+    border: 1.5px solid var(--line);
+    border-radius: 999px;
+    background: var(--paper);
+    font-weight: 700;
+    transition: background-color 0.12s, border-color 0.12s, color 0.12s;
+  }
+  .chip span::before {
+    content: "";
+    width: 0;
+    height: 14px;
+    background: no-repeat left center / 14px 14px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M2 7.5l3.2 3.2L12 3.8' fill='none' stroke='%23f6b92b' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    transition: width 0.12s, margin 0.12s;
+  }
+  .chip:hover span { border-color: var(--navy); }
+  .chip input:checked + span { background: var(--navy); border-color: var(--navy); color: #fff; }
+  .chip input:checked + span::before { width: 14px; margin-right: 8px; }
+  .chip input:focus-visible + span { outline: 3px solid var(--blue); outline-offset: 2px; }
+
+  /* inputs */
+  input[type="text"], input[type="email"], input[type="tel"], select {
+    width: 100%;
+    height: 52px;
+    padding: 0 14px;
+    border: 1.5px solid var(--line);
+    border-radius: 10px;
+    background-color: var(--paper);
+    color: var(--ink);
+    font: inherit;
+  }
+  input::placeholder { color: #8d97b0; }
+  select {
+    appearance: none;
+    -webkit-appearance: none;
+    padding-right: 36px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%2314213d' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 13px center;
+    background-size: 12px 8px;
+  }
+  select:invalid, select.is-blank { color: #6f7a94; }
+  input:hover, select:hover { border-color: #8c99bd; }
+  input:focus-visible, select:focus-visible { outline: 3px solid var(--blue); outline-offset: 1px; border-color: var(--blue); }
+  [aria-invalid="true"] { border-color: var(--error); border-width: 2px; }
+
+  .dob { display: grid; grid-template-columns: 1.5fr 0.85fr 1.15fr; gap: 8px; }
+  .dob select { padding: 0 26px 0 11px; background-position: right 9px center; }
+
+  .error {
+    display: flex;
+    gap: 7px;
+    margin-top: 7px;
+    color: var(--error);
+    font-size: 0.94rem;
+    line-height: 1.35;
+  }
+  .error::before {
+    content: "!";
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 18px;
+    height: 18px;
+    margin-top: 1px;
+    border-radius: 50%;
+    background: var(--error);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.78rem;
+  }
+  [hidden] { display: none !important; }
+
+  .actions { margin-top: 36px; }
+  .submit {
+    min-height: 58px;
+    padding: 0 30px;
+    border: 0;
+    border-radius: 12px;
+    background: var(--gold);
+    color: var(--ink);
+    font: 700 1.08rem var(--body);
+    cursor: pointer;
+    box-shadow: 0 5px 0 #c08a08;
+    transition: transform 0.08s, box-shadow 0.08s;
+  }
+  .submit:hover { background: #ffc640; }
+  .submit:active { transform: translateY(4px); box-shadow: 0 1px 0 #c08a08; }
+  .submit[disabled] { opacity: 0.65; cursor: progress; transform: none; box-shadow: 0 5px 0 #c08a08; }
+  .fine { margin-top: 18px; color: var(--muted); font-size: 0.94rem; }
+  .form-error {
+    margin-bottom: 18px;
+    padding: 13px 16px;
+    border-left: 4px solid var(--error);
+    border-radius: 4px 10px 10px 4px;
+    background: #fdecea;
+    color: #7a1a12;
+  }
+  .preview-note {
+    margin-top: 14px;
+    padding: 10px 14px;
+    border: 1.5px dashed var(--line);
+    border-radius: 10px;
+    color: var(--muted);
+    font-size: 0.94rem;
+  }
+
+  /* confirmation */
+  .done h2 {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(2rem, 3.4vw, 3rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    outline: none;
+  }
+  .done p { margin-top: 16px; max-width: 44ch; }
+  .again {
+    margin-top: 28px;
+    min-height: 52px;
+    padding: 0 22px;
+    border: 1.5px solid var(--navy);
+    border-radius: 12px;
+    background: transparent;
+    color: var(--navy);
+    font: 700 1rem var(--body);
+    cursor: pointer;
+  }
+  .again:hover { background: var(--navy); color: #fff; }
+
+  @media (max-width: 860px) {
+    .page { display: block; }
+    .stage { position: relative; height: auto; padding-bottom: 30px; }
+    .stage::before { width: 150%; right: -80%; top: -30%; }
+    .hang { width: min(224px, 66%); margin-left: 0; }
+    .strap { height: 30px; }
+    .tag { padding-top: 34px; }
+    .tag-first { margin-top: 8px; font-size: 1.85rem; }
+    .tag-first.is-long { font-size: 1.5rem; }
+    .tag-first.is-xlong { font-size: 1.2rem; }
+    .tag-last { font-size: 1.1rem; }
+    .tag-foot { margin-top: 14px; font-size: 0.88rem; }
+    .tag-seal { right: -40px; }
+    .stage h1 { margin-top: 30px; max-width: none; font-size: clamp(2rem, 8.4vw, 2.8rem); }
+    .stage .lede { margin-top: 12px; }
+    .sheet { padding-top: 28px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hang { animation: none; }
+    .is-saved .tag-seal, .chip span, .chip span::before, .submit { transition: none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="stage">
+    <div class="hang" id="hang" aria-hidden="true">
+      <div class="strap"></div>
+      <div class="clip"></div>
+      <div class="tag">
+        <span class="tag-slot"></span>
+        <p class="tag-club">Circle K Club</p>
+        <p class="tag-first is-empty" id="tagFirst">Your name</p>
+        <p class="tag-last" id="tagLast"></p>
+        <p class="tag-foot"><span id="tagRole">Member</span><span id="tagGrade"></span></p>
+        <span class="tag-seal">
+          <span>
+            <svg width="22" height="22" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5l3.2 3.2L12 3.8" fill="none" stroke="#f6b92b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            On the roster
+          </span>
+        </span>
+      </div>
+    </div>
+    <h1>Sign the Circle&nbsp;K roster</h1>
+    <p class="lede">Seven quick questions, about a minute. Your answers go straight to the club's member sheet.</p>
+  </header>
+
+  <main class="sheet">
+    <form id="signup" novalidate>
+      <h2 class="sr-only">Your details</h2>
+
+      <fieldset>
+        <legend>Your role</legend>
+        <p class="hint">Weren't assigned a role? Then you're a member. Leave Member selected.</p>
+        <div class="chips">
+          <label class="chip"><input type="radio" name="role" value="President"><span>President</span></label>
+          <label class="chip"><input type="radio" name="role" value="Vice President"><span>Vice President</span></label>
+          <label class="chip"><input type="radio" name="role" value="Secretary"><span>Secretary</span></label>
+          <label class="chip"><input type="radio" name="role" value="Treasurer"><span>Treasurer</span></label>
+          <label class="chip"><input type="radio" name="role" value="Member" checked><span>Member</span></label>
+        </div>
+      </fieldset>
+
+      <div class="grid2">
+        <div class="field">
+          <label class="label" for="lastName">Last name</label>
+          <input type="text" id="lastName" name="lastName" autocomplete="family-name" autocapitalize="words" spellcheck="false" maxlength="50" required aria-describedby="err-lastName">
+          <p class="error" id="err-lastName" hidden></p>
+        </div>
+        <div class="field">
+          <label class="label" for="firstName">First name</label>
+          <input type="text" id="firstName" name="firstName" autocomplete="given-name" autocapitalize="words" spellcheck="false" maxlength="50" required aria-describedby="err-firstName">
+          <p class="error" id="err-firstName" hidden></p>
+        </div>
+
+        <fieldset class="field" id="dobGroup" aria-describedby="err-dob">
+          <legend>Date of birth</legend>
+          <div class="dob">
+            <select id="dobMonth" name="dobMonth" autocomplete="bday-month" aria-label="Month" class="is-blank" required><option value="">Month</option></select>
+            <select id="dobDay" name="dobDay" autocomplete="bday-day" aria-label="Day" class="is-blank" required><option value="">Day</option></select>
+            <select id="dobYear" name="dobYear" autocomplete="bday-year" aria-label="Year" class="is-blank" required><option value="">Year</option></select>
+          </div>
+          <p class="error" id="err-dob" hidden></p>
+        </fieldset>
+        <div class="field">
+          <label class="label" for="grade">Grade</label>
+          <select id="grade" name="grade" class="is-blank" required aria-describedby="err-grade">
+            <option value="">Choose your grade</option>
+            <optgroup label="High school">
+              <option>11th grade</option>
+              <option>12th grade</option>
+            </optgroup>
+            <optgroup label="College">
+              <option>College freshman</option>
+              <option>College sophomore</option>
+              <option>College junior</option>
+              <option>College senior</option>
+            </optgroup>
+            <option>Other</option>
+          </select>
+          <p class="error" id="err-grade" hidden></p>
+        </div>
+
+        <div class="field">
+          <label class="label" for="email">Email</label>
+          <input type="email" id="email" name="email" autocomplete="email" inputmode="email" autocapitalize="none" spellcheck="false" maxlength="120" placeholder="name@example.com" required aria-describedby="err-email">
+          <p class="error" id="err-email" hidden></p>
+        </div>
+        <div class="field">
+          <label class="label" for="phone">Phone number</label>
+          <input type="tel" id="phone" name="phone" autocomplete="tel-national" inputmode="tel" maxlength="20" placeholder="(555) 123-4567" required aria-describedby="err-phone">
+          <p class="error" id="err-phone" hidden></p>
+        </div>
+      </div>
+
+      <div class="trap" aria-hidden="true">
+        <label>Website <input type="text" name="website" id="website" tabindex="-1" autocomplete="off"></label>
+      </div>
+
+      <div class="actions">
+        <p class="form-error" id="formError" role="alert" hidden></p>
+        <button type="submit" class="submit" id="submit">Add me to the roster</button>
+        <p class="fine">Your answers are saved to the club's member roster.</p>
+        <p class="preview-note" id="previewNote" hidden>Preview only. Sign-ups are not saved from this copy of the page.</p>
+      </div>
+    </form>
+
+    <section class="done" id="done" hidden>
+      <h2 id="doneTitle" tabindex="-1">You're on the roster.</h2>
+      <p id="doneBody"></p>
+      <button type="button" class="again" id="again">Sign up another member</button>
+    </section>
+  </main>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  // Web app address of the roster sheet's Apps Script (ends in /exec).
+  // Every sign-up is posted here. Empty means the form is not connected yet.
+  var ENDPOINT = '';
+
+  var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  var NAME_RE = /^[\p{L}][\p{L} .'’\-]{0,49}$/u;
+  var EMAIL_RE = /^[a-z0-9][a-z0-9._%+\-]*@[a-z0-9][a-z0-9.\-]*\.[a-z]{2,}$/i;
+
+  function $(id) { return document.getElementById(id); }
+
+  var form = $('signup');
+  var done = $('done');
+  var submitBtn = $('submit');
+  var formError = $('formError');
+  var hang = $('hang');
+  var touched = {};
+
+  // Opened straight from a computer (not from the web): act as a preview.
+  var local = location.protocol === 'file:' || location.protocol === 'data:' || /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+  var NOT_CONNECTED = 'This form is not connected to the club roster yet, so sign-ups cannot be saved. Tell a club officer.';
+  if (!ENDPOINT) {
+    if (!local) $('previewNote').textContent = NOT_CONNECTED;
+    $('previewNote').hidden = false;
+  }
+
+  /* ----- date of birth menus ----- */
+  function addOptions(select, items) {
+    items.forEach(function (item) {
+      var o = document.createElement('option');
+      o.value = item[0];
+      o.textContent = item[1];
+      select.appendChild(o);
+    });
+  }
+  var thisYear = new Date().getFullYear();
+  var years = [];
+  for (var y = thisYear - 5; y >= thisYear - 100; y--) years.push([y, y]);
+  var days = [];
+  for (var d = 1; d <= 31; d++) days.push([d, d]);
+  addOptions($('dobMonth'), MONTHS.map(function (m, i) { return [i + 1, m]; }));
+  addOptions($('dobDay'), days);
+  addOptions($('dobYear'), years);
+
+  /* ----- reading the form ----- */
+  function digits(v) {
+    var n = String(v).replace(/\D/g, '');
+    if (n.length === 11 && n.charAt(0) === '1') n = n.slice(1);
+    return n;
+  }
+  function formatPhone(v) {
+    var n = digits(v).slice(0, 10);
+    if (n.length < 4) return n;
+    if (n.length < 7) return '(' + n.slice(0, 3) + ') ' + n.slice(3);
+    return '(' + n.slice(0, 3) + ') ' + n.slice(3, 6) + '-' + n.slice(6);
+  }
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function tidy(v) { return v.replace(/\s+/g, ' ').trim(); }
+
+  function read() {
+    var role = form.querySelector('input[name="role"]:checked');
+    var m = Number($('dobMonth').value), dd = Number($('dobDay').value), yy = Number($('dobYear').value);
+    return {
+      role: role ? role.value : 'Member',
+      lastName: tidy($('lastName').value),
+      firstName: tidy($('firstName').value),
+      dobMonth: m, dobDay: dd, dobYear: yy,
+      dob: m && dd && yy ? yy + '-' + pad(m) + '-' + pad(dd) : '',
+      grade: $('grade').value,
+      email: $('email').value.trim().toLowerCase(),
+      phone: formatPhone($('phone').value),
+      website: $('website').value
+    };
+  }
+
+  /* ----- checks: each returns a message, or '' when fine ----- */
+  var checks = {
+    lastName: function (v) {
+      if (!v.lastName) return 'Enter your last name.';
+      return NAME_RE.test(v.lastName) ? '' : 'Use letters only, like Smith-Lee or O\'Brien.';
+    },
+    firstName: function (v) {
+      if (!v.firstName) return 'Enter your first name.';
+      return NAME_RE.test(v.firstName) ? '' : 'Use letters only, like Mary Ann or José.';
+    },
+    dob: function (v) {
+      if (!v.dobMonth || !v.dobDay || !v.dobYear) return 'Choose the month, day and year you were born.';
+      var date = new Date(v.dobYear, v.dobMonth - 1, v.dobDay);
+      if (date.getMonth() !== v.dobMonth - 1) return MONTHS[v.dobMonth - 1] + ' ' + v.dobYear + ' has no day ' + v.dobDay + '. Check the day.';
+      return date > new Date() ? 'That date is in the future. Check the year.' : '';
+    },
+    grade: function (v) { return v.grade ? '' : 'Choose your grade.'; },
+    email: function (v) {
+      if (!v.email) return 'Enter your email address.';
+      return EMAIL_RE.test(v.email) ? '' : 'That email is missing something. It should look like name@example.com.';
+    },
+    phone: function (v) {
+      var n = digits($('phone').value);
+      if (!n) return 'Enter your phone number.';
+      return n.length === 10 ? '' : 'Enter a 10-digit phone number, like (555) 123-4567.';
+    }
+  };
+  var controls = {
+    lastName: [$('lastName')], firstName: [$('firstName')],
+    dob: [$('dobMonth'), $('dobDay'), $('dobYear')],
+    grade: [$('grade')], email: [$('email')], phone: [$('phone')]
+  };
+
+  function show(name, message) {
+    var el = $('err-' + name);
+    el.textContent = message;
+    el.hidden = !message;
+    controls[name].forEach(function (c) {
+      if (message) c.setAttribute('aria-invalid', 'true'); else c.removeAttribute('aria-invalid');
+    });
+  }
+  function check(name) {
+    var message = checks[name](read());
+    show(name, message);
+    return !message;
+  }
+
+  /* ----- the name tag follows along ----- */
+  function updateTag() {
+    var v = read();
+    var first = $('tagFirst');
+    first.textContent = v.firstName || 'Your name';
+    first.classList.toggle('is-empty', !v.firstName);
+    first.classList.toggle('is-long', v.firstName.length > 9 && v.firstName.length <= 14);
+    first.classList.toggle('is-xlong', v.firstName.length > 14);
+    $('tagLast').textContent = v.lastName;
+    $('tagRole').textContent = v.role;
+    $('tagGrade').textContent = v.grade === 'Other' ? '' : v.grade;
+  }
+
+  /* ----- field events ----- */
+  Object.keys(controls).forEach(function (name) {
+    controls[name].forEach(function (c) {
+      c.addEventListener('blur', function () {
+        if (name === 'dob') {
+          var v = read();
+          if (!(v.dobMonth && v.dobDay && v.dobYear) && !touched.dob) return;
+        }
+        if (name === 'phone') c.value = formatPhone(c.value);
+        touched[name] = true;
+        check(name);
+      });
+      c.addEventListener(c.tagName === 'SELECT' ? 'change' : 'input', function () {
+        if (c.tagName === 'SELECT') c.classList.toggle('is-blank', !c.value);
+        if (name === 'phone' && c.selectionStart === c.value.length) c.value = formatPhone(c.value);
+        if (name === 'dob') {
+          var v = read();
+          if (v.dobMonth && v.dobDay && v.dobYear) touched.dob = true;
+        }
+        if (touched[name]) check(name);
+        updateTag();
+      });
+    });
+  });
+  form.querySelectorAll('input[name="role"]').forEach(function (r) {
+    r.addEventListener('change', updateTag);
+  });
+
+  /* ----- saving ----- */
+  var NOT_SAVED = 'Your sign-up was not saved. Check your connection, then press the button again.';
+  function setBusy(busy) {
+    submitBtn.disabled = busy;
+    submitBtn.textContent = busy ? 'Adding you to the roster…' : 'Add me to the roster';
+  }
+  function fail(message) {
+    setBusy(false);
+    formError.textContent = message;
+    formError.hidden = false;
+  }
+  function saved(result, values) {
+    if (!result || result.ok !== true) {
+      if (!result || !result.errors) { fail(NOT_SAVED); return; }
+      setBusy(false);
+      var first = null;
+      Object.keys(result.errors || {}).forEach(function (name) {
+        if (!controls[name]) return;
+        touched[name] = true;
+        show(name, result.errors[name]);
+        first = first || controls[name][0];
+      });
+      if (first) first.focus(); else fail('The roster did not accept that sign-up. Check your answers and try again.');
+      return;
+    }
+    setBusy(false);
+    form.hidden = true;
+    done.hidden = false;
+    hang.classList.add('is-saved');
+    $('doneTitle').textContent = 'You\'re on the roster, ' + values.firstName + '.';
+    $('doneBody').textContent = 'Saved as ' + values.role + '. Spotted a mistake? Tell a club officer and they can fix it on the sheet.';
+    window.scrollTo(0, 0);
+    $('doneTitle').focus({ preventScroll: true });
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    formError.hidden = true;
+    var firstBad = null;
+    Object.keys(checks).forEach(function (name) {
+      touched[name] = true;
+      if (!check(name) && !firstBad) firstBad = controls[name][0];
+    });
+    if (firstBad) { firstBad.focus(); return; }
+
+    var v = read();
+    var payload = { role: v.role, lastName: v.lastName, firstName: v.firstName, dob: v.dob, grade: v.grade, email: v.email, phone: v.phone, website: v.website };
+    if (!ENDPOINT && !local) { fail(NOT_CONNECTED); return; }
+    setBusy(true);
+    if (!ENDPOINT) {
+      setTimeout(function () { saved({ ok: true }, v); }, 600);
+      return;
+    }
+    // Sent as plain text so the browser makes one simple request that
+    // Google's web app accepts from any site.
+    fetch(ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    })
+      .then(function (response) {
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+        return response.json();
+      })
+      .then(function (result) { saved(result, v); })
+      .catch(function () { fail(NOT_SAVED); });
+  });
+
+  $('again').addEventListener('click', function () {
+    form.reset();
+    touched = {};
+    Object.keys(controls).forEach(function (name) { show(name, ''); });
+    form.querySelectorAll('select').forEach(function (s) { s.classList.add('is-blank'); });
+    hang.classList.remove('is-saved');
+    done.hidden = true;
+    form.hidden = false;
+    updateTag();
+    $('lastName').focus();
+  });
+
+  updateTag();
+})();
+</script>
+</body>
+</html>
